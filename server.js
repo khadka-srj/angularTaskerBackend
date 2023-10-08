@@ -24,12 +24,13 @@ app.get("/", function (req, res) {
 });
 
 app.delete("/:id", function (req, res) {
-  const taskToDelete = dataBase.find((t) => t.id == req.params.id);
+  const id = req.params.id;
+  const taskToDelete = dataBase.find((t) => t.id == id);
   dataBase.splice(
-    dataBase.findIndex((a) => a.id === req.params.id),
+    dataBase.findIndex((a) => a.id === id),
     1
   );
-  res.sendStatus(200).json(taskToDelete);
+  res.status(200).json(taskToDelete);
 });
 
 app.post("/new", function (req, res) {
@@ -38,4 +39,12 @@ app.post("/new", function (req, res) {
   res.send(newNote);
 });
 
+app.put("/:id", function (req, res) {
+  const updatedTask = req.body;
+  const taskToUpdateIndex = dataBase.findIndex(
+    (data) => data.id == req.params.id
+  );
+  dataBase[taskToUpdateIndex] = updatedTask;
+  res.status(200).json(updatedTask);
+});
 app.listen(5000);
