@@ -5,28 +5,29 @@ const { v4: uuidv4 } = require("uuid");
 
 let dataBase = [
   {
-    id: 1,
+    id: "1",
     text: "testing1",
     day: "2023-10-24T18:15:00.000Z",
   },
   {
-    id: 2,
+    id: "2",
     text: "testing2",
     day: "2023-10-24T18:15:00.000Z",
   },
 ];
+
 let users = [
   {
     id: 1,
     email: "suraj@gmail.com",
     name: "suraj",
-    password: "1234",
+    password: "12345678",
   },
   {
     id: 2,
     email: "saitama@gmail.com",
     name: "saitama",
-    password: "1234",
+    password: "12345678",
   },
 ];
 
@@ -39,8 +40,10 @@ app.get("/", function (req, res) {
 });
 
 app.delete("/:id", function (req, res) {
-  const id = parseInt(req.params.id);
-  const taskToDelete = dataBase.find((t) => t.id === id);
+  const id = req.params.id;
+  const taskToDelete = dataBase.find((t) => t.id == id);
+  // console.log(typeof taskToDelete.id, "tasktodelte");
+  // console.log(typeof id, "frontend id");
   dataBase = dataBase.filter((data) => data.id !== id);
   res.status(200).json(taskToDelete);
 });
@@ -48,7 +51,7 @@ app.delete("/:id", function (req, res) {
 app.post("/new", function (req, res) {
   const newNote = { id: uuidv4(), ...req.body };
   dataBase.push(newNote);
-  res.send(newNote);
+  return res.json(newNote);
 });
 
 app.put("/:id", function (req, res) {
@@ -70,8 +73,6 @@ app.post("/auth", function (req, res) {
       name: existingUser.name,
     });
   } else {
-    console.log(existingUser);
-    console.log(req.body);
     res.status(400).json({ message: "Email or password is incorrect." });
   }
 });
