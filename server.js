@@ -42,7 +42,7 @@ app.get("/", function (req, res) {
 app.delete("/:id", function (req, res) {
   const id = req.params.id;
   const taskToDelete = dataBase.find((t) => t.id == id);
-  console.log(typeof taskToDelete.id, "tasktodelte");
+  console.log(typeof taskToDelete.id, "tasktodelte", taskToDelete);
   console.log(typeof id, "frontend id");
   if (taskToDelete) {
     dataBase = dataBase.filter((data) => data.id !== id);
@@ -54,7 +54,7 @@ app.delete("/:id", function (req, res) {
 
 app.post("/new", function (req, res) {
   const newNote = { id: uuidv4(), ...req.body };
-  console.log("new task ko id", typeof newNote.id);
+  console.log("new task ko id", typeof newNote, newNote);
   if (newNote) {
     dataBase.push(newNote);
     res.status(201).json(newNote);
