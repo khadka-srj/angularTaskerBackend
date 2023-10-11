@@ -42,16 +42,25 @@ app.get("/", function (req, res) {
 app.delete("/:id", function (req, res) {
   const id = req.params.id;
   const taskToDelete = dataBase.find((t) => t.id == id);
-  // console.log(typeof taskToDelete.id, "tasktodelte");
-  // console.log(typeof id, "frontend id");
-  dataBase = dataBase.filter((data) => data.id !== id);
-  res.status(200).json(taskToDelete);
+  console.log(typeof taskToDelete.id, "tasktodelte");
+  console.log(typeof id, "frontend id");
+  if (taskToDelete) {
+    dataBase = dataBase.filter((data) => data.id !== id);
+    res.status(200).json(taskToDelete);
+  } else {
+    res.status(401).json({ message: "couldn't delete" });
+  }
 });
 
 app.post("/new", function (req, res) {
   const newNote = { id: uuidv4(), ...req.body };
-  dataBase.push(newNote);
-  return res.json(newNote);
+  console.log("new task ko id", typeof newNote.id);
+  if (newNote) {
+    dataBase.push(newNote);
+    res.status(201).json(newNote);
+  } else {
+    res.status(401).json({ message: "couldn't addd" });
+  }
 });
 
 app.put("/:id", function (req, res) {
